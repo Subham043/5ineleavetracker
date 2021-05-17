@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+
+<link href="{% static 'css/toastr.css'%}" rel="stylesheet" />
+
+<style>
+.stickyDiv{
+    position: sticky;
+    top:25px;
+}
+.sidebar .nav li .dropdown-menu a:hover{
+    background-color: #8e24aa;
+    color: #fff;
+    box-shadow: none;
+}
+.dropdown-item.active{
+    color: #ffffff !important;
+    text-decoration: none;
+    background-color: #8e24aa;
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+{% include 'navbar.html' with userNotif=userNotif %}
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Edit Personal Profile</h4>
+                  <p class="card-category">Complete your profile</p>
+                </div>
+                <div class="card-body">
+                  <form method="POST">{% csrf_token %}
+                      
+                    <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                {{form}}
+                              </div>
+                            </div>
+                            
+                            <input type="submit" name="updateFormValues" id="updateFormValues" class="btn btn-primary" value="Update">
+                          <div class="clearfix"></div>
+                      
+                    </div>
+                   
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 stickyDiv">
+                <div class="card card-profile">
+                  <div class="card-avatar">
+                    <a href="javascript:;">
+                      {% if profileimage.image %}
+                      <img class="img" src="{{profileimage.image.url}}" />
+                      {% else %}
+                      <img src="{% static 'img/avatar.JPG' %}" alt="">
+                      {% endif %}
+                    </a>
+                  </div>
+                  <div class="card-body">
+                    <h4 class="card-title" style="text-transform: capitalize;">{{request.user.first_name}} {{request.user.last_name}}</h4>
+                    <h6 class="card-category text-gray">{{request.user.email}}</h6>
+                    <!-- <p class="card-description">
+                      Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                    </p>
+                    <a href="javascript:;" class="btn btn-primary btn-round">Follow</a> -->
+                    <form method="POST"  enctype="multipart/form-data" id="imageForm">{% csrf_token %}
+                      <input type="file" class="form-control" name="image" id="my_image">
+                      <input type="hidden" name="image_selection" id="image_selection" value="None">
+                      <div class="form-group"></div>
+                        <input class="btn btn-primary btn-round" type="submit" value="Update Image" name="imageUpdateBtn" id="imageUpdateBtn">
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        </div>
+      </div>
+     
+
+{% endblock %}
+
+
+{% block js %}
+
+<script src="{% static 'js/toastr.js' %}"></script>
+
+<script>
+    $('input').addClass('form-control')
+    $('select').addClass('form-control')
+    $('textarea').addClass('form-control')
+    $('#imageUpdateBtn').removeClass('form-control')
+    $('#updateFormValues').removeClass('form-control')
+
+    // function openFile(){
+    //   document.getElementById('my_image').click();
+    // }
+
+    document.getElementById("my_image").onchange = function() {
+      document.getElementById("image_selection").value = "image_selected";
+    };
+
+</script>
+
+{% if success %}
+
+<script>
+    toastr.error('', '{{successMessage}}',{
+
+            // tap to dismiss
+            tapToDismiss: true,
+
+            // toast class
+            toastClass: 'toast',
+
+            // container ID
+            containerId: 'toast-container',
+
+            // debug mode
+            debug: false,
+
+            // fadeIn, slideDown, and show are built into jQuery
+            showMethod: 'slideDown', 
+
+            // duration of animation
+            showDuration: 300,
+
+            // easing function
+            showEasing: 'swing',
+
+            // callback function
+            onShown: undefined,
+            onHidden: undefined,
+
+            // hide animation
+            hideMethod: 'fadeOut',
+
+            // duration of animation
+            hideDuration: 1000,
+
+            // easing function
+            hideEasing: 'swing',
+
+            // close animation
+            closeMethod: true,
+
+            // duration of animation
+            closeDuration: false,
+
+            // easing function
+            closeEasing: false,
+
+            // timeout in ms
+            extendedTimeOut: 1000,
+
+            // you can customize icons here
+            iconClasses: {
+            error: 'toast-error',
+            info: 'toast-info',
+            success: 'toast-success',
+            warning: 'toast-warning'
+            },
+            iconClass: 'toast-success',
+
+            // toast-top-center, toast-bottom-center, toast-top-full-width
+            // toast-bottom-full-width, toast-top-left, toast-bottom-right
+            // toast-bottom-left, toast-top-right
+            positionClass: 'toast-top-right',
+
+            // set timeOut and extendedTimeOut to 0 to make it sticky
+            timeOut: 5000, 
+
+            // title class
+            titleClass: 'toast-title',
+
+            // message class
+            messageClass: 'toast-message',
+
+            // allows HTML content in the toast?
+            escapeHtml: false,
+
+            // target container
+            target: 'body',
+
+            // close button
+            closeHtml: '<button type="button">&times;</button>',
+
+            // place the newest toast on the top
+            newestOnTop: true,
+
+            // revent duplicate toasts
+            preventDuplicates: false,
+
+            // shows progress bar
+            progressBar: true,
+
+        })
+
+
+</script>
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,479 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+
+<link href="{% static 'css/toastr.css'%}" rel="stylesheet" />
+<style>
+.stickyDiv{
+    position: sticky;
+    top:25px;
+}
+.sidebar .nav li .dropdown-menu a:hover{
+    background-color: #8e24aa;
+    color: #fff;
+    box-shadow: none;
+}
+.dropdown-item.active{
+    color: #ffffff !important;
+    text-decoration: none;
+    background-color: #8e24aa;
+}
+table{
+  overflow-x: scroll;
+  display:table;
+}
+
+.card {
+    margin-bottom: 60px;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+{% include 'navbar.html' with userNotif=userNotif %}
+
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Personal Detail</h4>
+                  <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        
+                        <th>
+                            Mobile
+                        </th>
+                        <th>
+                          Other Email
+                        </th>
+                        <th>
+                          Address
+                        </th>
+                        <th>
+                          Date of Birth
+                        </th>
+                        <th>
+                          Marital Status
+                        </th>
+                        <th>
+                          Gender
+                        </th>
+                      </thead>
+                      <tbody>
+                          {% if not personalDetail.empty %}
+                      
+                        <tr>
+                          
+                          <td>
+                            {{personalDetail.Mobile_Phone}}
+                          </td>
+                          <td>
+                            {{personalDetail.Other_Email}}
+                          </td>
+                          <td>
+                            {{personalDetail.Address}}
+                          </td>
+                          <td>
+                            {{personalDetail.Date_Of_Birth}}
+                          </td>
+                          <td>
+                            {{personalDetail.MARITAL_STATUS}}
+                          </td>
+                          <td>
+                            {{personalDetail.Gender}}
+                          </td>
+                          
+                          
+                        </tr>
+                        
+                        {% else %}
+
+                        <tr>
+                            <td colspan="6" style="text-align: center;">No Data Available</td>
+                        </tr>
+
+                        {% endif %}
+
+                        </tbody>
+                    </table>
+
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+              
+              <div class="card mt-2">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Work Detail</h4>
+                  <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        
+                        <th>
+                          Department
+                        </th>
+                        <th>
+                          Reporting To
+                        </th>
+                        <th>
+                          Source Of Hire
+                        </th>
+                        <th>
+                          Job Title
+                        </th>
+                        <th>
+                          Date Of Joining
+                        </th>
+                        <th>
+                          Employee Status
+                        </th>
+                        <th>
+                          Employee Type
+                        </th>
+                        <th>
+                          Work Phone
+                        </th>
+                        <th>
+                          Extension
+                        </th>
+                        <th>
+                          Role
+                        </th>
+                      </thead>
+                      <tbody>
+                          {% if not workDetail.empty %}
+                      
+                        <tr>
+                          
+                          <td>
+                            {{workDetail.Department}}
+                          </td>
+                          <td>
+                            {{workDetail.Reporting_To}}
+                          </td>
+                          <td>
+                            {{workDetail.Source_Of_Hire}}
+                          </td>
+                          <td>
+                            {{workDetail.Title}}
+                          </td>
+                          <td>
+                            {{workDetail.Date_Of_Joining}}
+                          </td>
+                          <td>
+                            {{workDetail.Employee_Status}}
+                          </td>
+                          <td>
+                            {{workDetail.Employee_Type}}
+                          </td>
+                          <td>
+                            {{workDetail.Work_Phone}}
+                          </td>
+                          <td>
+                            {{workDetail.Extension}}
+                          </td>
+                          <td>
+                            {{workDetail.Role}}
+                          </td>
+                          
+                          
+                        </tr>
+                        
+                        {% else %}
+
+                        <tr>
+                            <td colspan="10" style="text-align: center;">No Data Available</td>
+                        </tr>
+
+                        {% endif %}
+
+                        </tbody>
+                    </table>
+
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mt-2">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Experience Detail</h4>
+                  <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        
+                        <th>
+                          Previous Company Name
+                        </th>
+                        <th>
+                          Job Title
+                        </th>
+                        <th>
+                          From
+                        </th>
+                        <th>
+                          To
+                        </th>
+                        <th>
+                          Job_Description
+                        </th>
+                        
+                      </thead>
+                      <tbody>
+                          {% if not experienceDetail.empty %}
+                      
+                        <tr>
+                          
+                          <td>
+                            {{experienceDetail.Previous_Company_Name}}
+                          </td>
+                          <td>
+                            {{experienceDetail.Job_Title}}
+                          </td>
+                          <td>
+                            {{experienceDetail.From}}
+                          </td>
+                          <td>
+                            {{experienceDetail.To}}
+                          </td>
+                          <td>
+                            {{experienceDetail.Job_Description}}
+                          </td>
+                          
+                          
+                          
+                        </tr>
+                        
+                        {% else %}
+
+                        <tr>
+                            <td colspan="5" style="text-align: center;">No Data Available</td>
+                        </tr>
+
+                        {% endif %}
+
+                        </tbody>
+                    </table>
+
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mt-2">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Education Detail</h4>
+                  <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        
+                        <th>
+                          School Name
+                        </th>
+                        <th>
+                          Degree Or Diploma
+                        </th>
+                        <th>
+                          Field Of Study
+                        </th>
+                        <th>
+                          Date Of Completion
+                        </th>
+                        <th>
+                          Interests
+                        </th>
+                        
+                      </thead>
+                      <tbody>
+                          {% if not educationDetail.empty %}
+                      
+                        <tr>
+                          
+                          <td>
+                            {{educationDetail.School_Name}}
+                          </td>
+                          <td>
+                            {{educationDetail.Degree_Or_Diploma}}
+                          </td>
+                          <td>
+                            {{educationDetail.Field_Of_Study}}
+                          </td>
+                          <td>
+                            {{educationDetail.Date_Of_Completion}}
+                          </td>
+                          <td>
+                            {{educationDetail.Interests}}
+                          </td>
+                          
+                          
+                          
+                        </tr>
+                        
+                        {% else %}
+
+                        <tr>
+                            <td colspan="5" style="text-align: center;">No Data Available</td>
+                        </tr>
+
+                        {% endif %}
+
+                        </tbody>
+                    </table>
+
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      
+  
+{% endblock %}
+
+
+{% block js %}
+<script src="{% static 'js/toastr.js' %}"></script>
+<script>
+    $('input').addClass('form-control')
+    $('select').addClass('form-control')
+    $('textarea').addClass('form-control')
+
+    // function deletePost(id) {
+    //     var ask = window.confirm("Are you sure you want to delete this post?");
+    //     if (ask) {
+
+    //         window.location.href = "/user/setting/role/delete/"+id+"/";
+
+    //     }
+    // }
+</script>
+
+    {% if success %}
+
+    <script>
+        toastr.error('', 'Role {{success}} Successfully',{
+
+                // tap to dismiss
+                tapToDismiss: true,
+
+                // toast class
+                toastClass: 'toast',
+
+                // container ID
+                containerId: 'toast-container',
+
+                // debug mode
+                debug: false,
+
+                // fadeIn, slideDown, and show are built into jQuery
+                showMethod: 'slideDown', 
+
+                // duration of animation
+                showDuration: 300,
+
+                // easing function
+                showEasing: 'swing',
+
+                // callback function
+                onShown: undefined,
+                onHidden: undefined,
+
+                // hide animation
+                hideMethod: 'fadeOut',
+
+                // duration of animation
+                hideDuration: 1000,
+
+                // easing function
+                hideEasing: 'swing',
+
+                // close animation
+                closeMethod: true,
+
+                // duration of animation
+                closeDuration: false,
+
+                // easing function
+                closeEasing: false,
+
+                // timeout in ms
+                extendedTimeOut: 1000,
+
+                // you can customize icons here
+                iconClasses: {
+                error: 'toast-error',
+                info: 'toast-info',
+                success: 'toast-success',
+                warning: 'toast-warning'
+                },
+                iconClass: 'toast-success',
+
+                // toast-top-center, toast-bottom-center, toast-top-full-width
+                // toast-bottom-full-width, toast-top-left, toast-bottom-right
+                // toast-bottom-left, toast-top-right
+                positionClass: 'toast-top-right',
+
+                // set timeOut and extendedTimeOut to 0 to make it sticky
+                timeOut: 5000, 
+
+                // title class
+                titleClass: 'toast-title',
+
+                // message class
+                messageClass: 'toast-message',
+
+                // allows HTML content in the toast?
+                escapeHtml: false,
+
+                // target container
+                target: 'body',
+
+                // close button
+                closeHtml: '<button type="button">&times;</button>',
+
+                // place the newest toast on the top
+                newestOnTop: true,
+
+                // revent duplicate toasts
+                preventDuplicates: false,
+
+                // shows progress bar
+                progressBar: true,
+
+            })
+
+
+</script>
+
+{% endif %}
+
+{% endblock %}

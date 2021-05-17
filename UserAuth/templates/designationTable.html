@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+
+<link href="{% static 'css/toastr.css'%}" rel="stylesheet" />
+<style>
+.stickyDiv{
+    position: sticky;
+    top:25px;
+}
+.sidebar .nav li .dropdown-menu a:hover{
+    background-color: #8e24aa;
+    color: #fff;
+    box-shadow: none;
+}
+.dropdown-item.active{
+    color: #ffffff !important;
+    text-decoration: none;
+    background-color: #8e24aa;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+{% include 'navbar.html' with userNotif=userNotif %}
+
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Designation Table</h4>
+                  <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        <th>
+                          #
+                        </th>
+                        <th>
+                          Designation Name
+                        </th>
+                        <th>
+                          Stream
+                        </th>
+                        <th>
+                            Mail Alias
+                        </th>
+                        <th>
+                            Action
+                         </th>
+                      </thead>
+                      <tbody>
+                          {% if depTable %}
+                          {% for i in depTable %}
+                        <tr>
+                          <td>
+                            {{forloop.counter}}
+                          </td>
+                          <td>
+                            {{i.Designation_Name}}
+                          </td>
+                          {% if i.Stream %}
+                          <td>
+                            {{i.Stream}}
+                          </td>
+                          {% else %}
+                          <td>
+                            ------------
+                          </td>
+                          {% endif %}
+                          {% if i.Mail_Alias %}
+                          <td>
+                            {{i.Mail_Alias}}
+                          </td>
+                          {% else %}
+                          <td>
+                            ------------
+                          </td>
+                          {% endif %}
+                          <td>
+                            <a href="/user/setting/designation/edit/{{i.id}}" class="btn btn-outline-warning" style="display: inline-block;"><i class="material-icons">edit</i></a>
+                            <button title="Approve Employee" onclick="deletePost({{i.id}})" class="btn btn-outline-danger" style="display: inline-block;"><i class="material-icons"><span class="material-icons-outlined">
+                                
+                                delete
+                                </span></i></button>
+                                
+                                
+                          </td>
+                          
+                        </tr>
+                        
+                        {% endfor %}
+                        {% else %}
+
+                        <tr>
+                            <td colspan="3" style="text-align: right;">No Data Available</td>
+                        </tr>
+
+                        {% endif %}
+
+                        </tbody>
+                    </table>
+                    <div style="text-align: center;">
+                        <a href="/user/setting/designation/add/" class="btn btn-primary" style="display: inline-block;">Add Designation</a>
+                    </div>
+
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      
+  
+{% endblock %}
+
+
+{% block js %}
+<script src="{% static 'js/toastr.js' %}"></script>
+<script>
+    $('input').addClass('form-control')
+    $('select').addClass('form-control')
+    $('textarea').addClass('form-control')
+
+    function deletePost(id) {
+        var ask = window.confirm("Are you sure you want to delete this post?");
+        if (ask) {
+
+            window.location.href = "/user/setting/designation/delete/"+id+"/";
+
+        }
+    }
+</script>
+
+    {% if success %}
+
+    <script>
+        toastr.error('', 'Designation {{success}} Successfully',{
+
+                // tap to dismiss
+                tapToDismiss: true,
+
+                // toast class
+                toastClass: 'toast',
+
+                // container ID
+                containerId: 'toast-container',
+
+                // debug mode
+                debug: false,
+
+                // fadeIn, slideDown, and show are built into jQuery
+                showMethod: 'slideDown', 
+
+                // duration of animation
+                showDuration: 300,
+
+                // easing function
+                showEasing: 'swing',
+
+                // callback function
+                onShown: undefined,
+                onHidden: undefined,
+
+                // hide animation
+                hideMethod: 'fadeOut',
+
+                // duration of animation
+                hideDuration: 1000,
+
+                // easing function
+                hideEasing: 'swing',
+
+                // close animation
+                closeMethod: true,
+
+                // duration of animation
+                closeDuration: false,
+
+                // easing function
+                closeEasing: false,
+
+                // timeout in ms
+                extendedTimeOut: 1000,
+
+                // you can customize icons here
+                iconClasses: {
+                error: 'toast-error',
+                info: 'toast-info',
+                success: 'toast-success',
+                warning: 'toast-warning'
+                },
+                iconClass: 'toast-success',
+
+                // toast-top-center, toast-bottom-center, toast-top-full-width
+                // toast-bottom-full-width, toast-top-left, toast-bottom-right
+                // toast-bottom-left, toast-top-right
+                positionClass: 'toast-top-right',
+
+                // set timeOut and extendedTimeOut to 0 to make it sticky
+                timeOut: 5000, 
+
+                // title class
+                titleClass: 'toast-title',
+
+                // message class
+                messageClass: 'toast-message',
+
+                // allows HTML content in the toast?
+                escapeHtml: false,
+
+                // target container
+                target: 'body',
+
+                // close button
+                closeHtml: '<button type="button">&times;</button>',
+
+                // place the newest toast on the top
+                newestOnTop: true,
+
+                // revent duplicate toasts
+                preventDuplicates: false,
+
+                // shows progress bar
+                progressBar: true,
+
+            })
+
+
+</script>
+
+{% endif %}
+
+{% endblock %}

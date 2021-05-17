@@ -1,0 +1,262 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block css %}
+
+<style>
+.sidebar .nav li .dropdown-menu a:hover{
+    background-color: #8e24aa;
+    color: #fff;
+    box-shadow: none;
+}
+.dropdown-item.active{
+    color: #ffffff !important;
+    text-decoration: none;
+    background-color: #8e24aa;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+{% include 'navbar.html' with userNotif=userNotif %}
+
+      <div class="content">
+        <div class="container-fluid">
+
+          <div class="row">
+            <div class="col-lg-5 offset-3">
+              {% if success %}
+              <div class="alert alert-danger alert-with-icon" data-notify="container">
+                <i class="material-icons" data-notify="icon">error</i>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <i class="material-icons">close</i>
+                </button>
+                <span data-notify="message">Oops! You don't have the permission to do that.</span>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">person</i>
+                  </div>
+                  <!-- <p class="card-category">Employees</p> -->
+                  <h3 class="card-title">{{noOfUser}}
+                    <small></small>
+                  </h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    Total Employees
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">view_list</i>
+                  </div>
+                  <!-- <p class="card-category">Total Leaves Applied</p> -->
+                  <h3 class="card-title">{{totalLeaves}}</h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    Total Leaves Applied
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-danger card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">check_box</i>
+                  </div>
+                  <!-- <p class="card-category">Fixed Issues</p> -->
+                  <h3 class="card-title">{{totalLeavesApproved}}</h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    Total Leaves Approved
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">delete_forever</i>
+                  </div>
+                  <!-- <p class="card-category">Followers</p> -->
+                  <h3 class="card-title">{{totalLeavesRejected}}</h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    Total Leaves Rejected
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card card-chart">
+                <div class="card-header card-header-success">
+                  <div class="ct-chart" id="dailySalesChart">
+                    <h4 class="card-title">Leave Report</h4>
+                  </div>
+                </div>
+                
+                <div style="height:150px; overflow-y:scroll;">
+                {% for i in leaveReport %}
+
+                <div class="card-body">
+                  <p class="card-category text-success" style="text-transform: uppercase;"><b>{{i.leavetype}}</b></p>
+                  <p class="card-category">Available: {{i.leaveAvailable}}</p>
+                  <p class="card-category">Booked: {{i.leaveBooked}}</p>
+                    
+                </div>  
+
+                {% endfor %}
+                
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-chart">
+                <div class="card-header card-header-warning">
+                  <div class="ct-chart" id="websiteViewsChart">
+                    <h4 class="card-title">Birthday's Upcoming</h4>
+                  </div>
+                </div>
+                
+                <div style="height:150px; overflow-y:scroll;">
+                {% if birthdayUp %}
+                {% for i in birthdayUp %}
+
+                <div class="card-body">
+                  <p class="card-category text-warning" style="text-transform: uppercase;"><b>{{i.Employee.first_name}} {{i.Employee.last_name}}</b></p>
+                  <p class="card-category"><i class="material-icons">insert_invitation</i> {{i.Date_Of_Birth}}</p>
+                    
+                </div>  
+
+                {% endfor %}
+                {% else %}
+
+                <div class="card-body">
+
+                  <p class="card-category  text-warning"><b>No Birthday Party This Month</b></p>
+                    
+                </div>
+
+                {% endif %}
+              </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-chart">
+                <div class="card-header card-header-danger">
+                  <div class="ct-chart" id="completedTasksChart">
+                    <h4 class="card-title">Holiday's Upcoming</h4>
+                  </div>
+                </div>
+                
+                <div style="height:150px; overflow-y:scroll;">
+                {% for i in holidayUp %}
+                <div class="card-body">
+                  <p class="card-category  text-danger" style="text-transform: uppercase;"><b>{{i.Name}}</b></p>
+                  <p class="card-category"><i class="material-icons">insert_invitation</i> {{i.Date}}</p>
+                    
+                </div>                
+                
+                
+                {% endfor %}
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Upcoming Approved Leave</h4>
+                  <!-- <p class="card-category">New employees on 15th September, 2016</p> -->
+                </div>
+                <div class="card-body table-responsive">
+                  <table class="table table-hover" style="height: 150px; overflow-y: scroll;">
+                    <thead class="text-primary">
+                      <th>#</th>
+                      <th>Leave Type</th>
+                      <th>Date</th>
+                      <th>Reason For Leave</th>
+                    </thead>
+                    <tbody>
+                        {% if leavesApplied %}
+                        {% for leavesApplied in leavesApplied %}
+                      <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{leavesApplied.Leave_Type}}</td>
+                        <td>{{leavesApplied.Valid_From}}</td>
+                        <td>{{leavesApplied.Reason_For_Leave}}</td>
+                      </tr>
+                      {% endfor %}
+                      {% else %}
+                      <tr>
+                          <td colspan="4" style="text-align: center;">No Leaves Applied</td>
+                      </tr>
+                      {% endif %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <div class="card">
+                <div class="card-header card-header-warning">
+                  <h4 class="card-title">Employees Details</h4>
+                  <!-- <p class="card-category">New employees on 15th September, 2016</p> -->
+                </div>
+                <div class="card-body table-responsive">
+                  <table class="table table-hover" style="height: 150px; overflow-y: scroll;">
+                    <thead class="text-warning">
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Phone</th>
+                      <th>Email</th>
+                    </thead>
+                    <tbody>
+                        {% if employeeDetails %}
+                        {% for employeeDetails in employeeDetails %}
+                      <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{employeeDetails.Employee.first_name}} {{employeeDetails.Employee.last_name}}</td>
+                        <td>{{employeeDetails.Mobile_Phone}}</td>
+                        <td>{{employeeDetails.Other_Email}}</td>
+                      </tr>
+                      {% endfor %}
+                      {% else %}
+                      <tr>
+                          <td colspan="4" style="text-align: center;">No Employees Details Available</td>
+                      </tr>
+                      {% endif %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+  {% endblock %}
